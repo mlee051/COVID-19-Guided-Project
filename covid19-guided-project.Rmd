@@ -1,0 +1,140 @@
+---
+title: "COVID-19 Guided Project"
+author: "Mona Lee"
+date: "2025-05-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# COVID-19 Guided Project
+
+## Introduction
+
+This project is to explore the efficacy of public health governments according to their message delivery during the COVID-19 pandemic. We will begin by finding the provinces which had the best testing and recovery rates. This will be then followed by exploring the approach the top 5 countries had with their public message approaches.
+
+The goal of this project is to determine if government messaging is a driver of public health measures.
+
+# Importing Libraries
+
+Remember to load the following outside of this html document.
+
+```{r setup, include=FALSE}
+install.packages("tidyverse")
+library(tidyverse) #includes library(dplyr) & library(readr)
+```
+
+We will begin by briefly evaluating the data by gathering its dimensions, column names, peeking at the table, and viewing a "glimpse" summary.
+
+```{r covid-setup, include=FALSE}
+covid_df <- read_csv("C:/Users/monam/OneDrive/Documents/covid19.csv", col_names = TRUE)
+
+dim(covid_df)
+colnames(covid_df)
+head(covid_df)
+glimpse(covid_df)
+```
+
+# Data Clean-up
+
+Given that the data set groups certain provinces together for some countries, yet specifies the province for certain countries such as the U.S., we will filter our data to be country-wide (removing state-specific rows and removing the Province-level information).
+
+```{r clean-up 1, echo=FALSE}
+covid_df_all_states <- covid_df |>
+  filter(Province_State == "All States") |>
+  select( - Province_State)
+covid_df_all_states
+```
+
+To manage the differences invoked with measurements that are cumulative vs. daily information, we will further isolate for daily data.
+
+```{r clean-up 2, echo=FALSE}
+covid_df_all_states_daily <- covid_df_all_states |>
+  select(Date, Country_Region, active, hospitalizedCurr, daily_tested, daily_positive)
+head(covid_df_all_states_daily)
+```
+
+We can begin with getting oversight into how we can get the overall number of people tested, positive results, active, and hospitalized cased by country, reported daily.
+
+```{r overall, echo=FALSE}
+covid_df_all_states_daily_sum <- covid_df_all_states_daily |>
+  group_by(Country_Region) |>
+  summarize(tested = sum(daily_tested),
+            positive = sum(daily_positive),
+            active = sum(positive),
+            hospitalized = sum(hospitalizedCurr)
+            ) |>
+  arrange(desc(tested), by_group = Country_Region)
+covid_df_all_states_daily_sum
+
+covid_top_10 <- head(covid_df_all_states_daily_sum, 10)
+```
+
+Now we can explore: Which countries have had the highest number of positive cases against the number of tests?
+
+```{r vectors & matrices, echo=FALSE}
+countries <- covid_top_10$Country_Region
+positive_cases <- covid_top_10$positive
+tested_cases <- covid_top_10$tested
+active_cases <- covid_top_10$active
+hospitalized_cases <- covid_top_10$hospitalized
+tested_cases
+positive_cases
+active_cases
+hospitalized_cases
+
+names(tested_cases) <- countries
+names(positive_cases) <- countries
+names(active_cases) <- countries
+names(hospitalized_cases) <- countries
+tested_cases
+positive_cases
+active_cases
+hospitalized_cases
+```
+
+Now we can identify the top 3 positive against tested cases.
+
+```{r cases, echo=FALSE}
+positive_cases/tested_cases
+positive_tested_top_3 <- c("United Kingdom"=0.113260617,"United States"=0.108618191,"Turkey"=0.080711720)
+positive_tested_top_3
+```
+
+We can make a matrix for the relevant values of the top 3 countries for easy display.
+
+```{r covid-matrix, echo=FALSE}
+united_kingdom <- c(0.11, 1473672, 166909, 0, 0)
+united_states <- c(0.10, 17282363, 1877179, 0, 0)
+turkey <- c(0.08, 2031192, 163941, 2980960, 0)
+
+covid_mat <- rbind(united_kingdom, united_states, turkey)
+colnames(covid_mat) <- c("Ratio", "tested", "positive", "active", "hospitalized")
+```
+
+```{r chunk-name}
+covid_mat
+```
+
+```{r making the mysterious vector_cols, include=FALSE}
+vector_cols <- c("Ratio", "tested", "positive", "active", "hospitalized")
+```
+
+Now we can report all our findings into a "list" of all the data we can use to answer the following questions: \* Which Top Ten Countries with Most Covid-19 Cases? \*Which countries have had the highest number of positive cases against the number of tests?
+
+```{r final findings list, echo=FALSE}
+question <- "Which countries have had the highest number of positive cases against the number of tests?"
+answer <- c("Positive tested cases" = positive_tested_top_3)
+
+#dataframes <- list(covid_df, covid_df_all_states, covid_df_all_states_daily, covid_df_all_states_daily_sum, covid_top_10, covid19)
+dataframes <- list(covid_df, covid_df_all_states, covid_df_all_states_daily, covid_top_10)
+matrices <- list(covid_mat)
+vectors <- list(vector_cols, countries)
+data_structure_list <- list("dataframes", dataframes, "matrices", matrices, "vectors", vectors)
+
+covid_analysis_list <- list(question, answer, data_structure_list)
+
+covid_analysis_list[2]
+```
