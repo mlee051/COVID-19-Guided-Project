@@ -48,7 +48,7 @@ covid_df_all_states <- covid_df |>
 covid_df_all_states
 ```
 
-To manage the differences invoked with measurements that are cumulative vs. daily information, we will further isolate for daily data.
+To manage the differences involved with measurements that are cumulative vs. daily information, we will further isolate for daily data.
 
 ```{r clean-up 2, echo=FALSE}
 covid_df_all_states_daily <- covid_df_all_states |>
@@ -59,7 +59,8 @@ head(covid_df_all_states_daily)
 We can begin with getting oversight into how we can get the overall number of people tested, positive results, active, and hospitalized cased by country, reported daily.
 
 ```{r overall, echo=FALSE}
-covid_df_all_states_daily_sum <- covid_df_all_states_daily |>
+#Before this, the project actually asks for the countries with the "Highest Fatality Rates" 
+covid_df_all_states_daily_sum <-   covid_df_all_states_daily |> 
   group_by(Country_Region) |>
   summarize(tested = sum(daily_tested),
             positive = sum(daily_positive),
@@ -125,6 +126,8 @@ vector_cols <- c("Ratio", "tested", "positive", "active", "hospitalized")
 Now we can report all our findings into a "list" of all the data we can use to answer the following questions: \* Which Top Ten Countries with Most Covid-19 Cases? \*Which countries have had the highest number of positive cases against the number of tests?
 
 ```{r final findings list, echo=FALSE}
+# The project also asks for: \* `The Best effort in test related to the population` \* `The most affected country related to its population` and \*`The least affected country related to its population`
+
 question <- "Which countries have had the highest number of positive cases against the number of tests?"
 answer <- c("Positive tested cases" = positive_tested_top_3)
 
