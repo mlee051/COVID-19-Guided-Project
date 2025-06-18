@@ -5,8 +5,11 @@ date: "2025-05-18"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include=FALSE}
+# Best practice: do not install packages in .Rmd
+library(tidyverse) #includes dplyr, ggplot2, readr, tibble, etc. knitr::opts_chunk\$set(echo = TRUE)
+# This document requires the 'tidyverse' package.
+# Install it once using: install.packages("tidyverse")
 ```
 
 # COVID-19 Guided Project
@@ -16,14 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 This project is to explore the efficacy of public health governments according to their message delivery during the COVID-19 pandemic. We will begin by finding the provinces which had the best testing and recovery rates. This will be then followed by exploring the approach the top 5 countries had with their public health response strategies early in the pandemic.
 
 The goal of this project is to determine if there is any pattern in the public health measures that achieved the best testing and recovery rates.
-
-# Importing Libraries
-
-```{r setup, include=FALSE}
-#Remember to load the following outside of this html document.
-install.packages("tidyverse")
-library(tidyverse) #includes library(dplyr) & library(readr)
-```
 
 We will begin by briefly evaluating the data by gathering its dimensions, column names, peeking at the table, and viewing a "glimpse" summary.
 
@@ -54,6 +49,7 @@ covid_df_all_states_daily <- covid_df_all_states |>
   select(Date, Country_Region, active, hospitalizedCurr, daily_tested, daily_positive)
 head(covid_df_all_states_daily)
 ```
+
 We can begin with getting oversight into how we can get the overall number of people tested, positive results, active, and hospitalized cased by country, reported daily.
 
 ```{r overall, echo=FALSE}
@@ -120,13 +116,7 @@ covid_mat
 vector_cols <- c("Ratio", "tested", "positive", "active", "hospitalized")
 ```
 
-Now we can report all our findings into a list of the data we can use to answer the following questions:
-- Which top ten countries had the most COVID-19 cases?
-- Which countries had the highest number of positive cases relative to the number of tests?
-- Which country had the best testing effort relative to its population?
-- Which country was the most affected relative to its population?
-- Which country was the least affected relative to its population?
-
+Now we can report all our findings into a list of the data we can use to answer the following questions: - Which top ten countries had the most COVID-19 cases? - Which countries had the highest number of positive cases relative to the number of tests? - Which country had the best testing effort relative to its population? - Which country was the most affected relative to its population? - Which country was the least affected relative to its population?
 
 ```{r final findings list, echo=FALSE}
 question1 <- "Which countries have had the highest number of positive cases against the number of tests?"
