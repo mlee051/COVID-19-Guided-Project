@@ -13,15 +13,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-This project is to explore the efficacy of public health governments according to their message delivery during the COVID-19 pandemic. We will begin by finding the provinces which had the best testing and recovery rates. This will be then followed by exploring the approach the top 5 countries had with their public message approaches.
+This project is to explore the efficacy of public health governments according to their message delivery during the COVID-19 pandemic. We will begin by finding the provinces which had the best testing and recovery rates. This will be then followed by exploring the approach the top 5 countries had with their public health response strategies early in the pandemic.
 
-The goal of this project is to determine if government messaging is a driver of public health measures.
+The goal of this project is to determine if there is any pattern in the public health measures that achieved the best testing and recovery rates.
 
 # Importing Libraries
 
-Remember to load the following outside of this html document.
-
 ```{r setup, include=FALSE}
+#Remember to load the following outside of this html document.
 install.packages("tidyverse")
 library(tidyverse) #includes library(dplyr) & library(readr)
 ```
@@ -55,11 +54,9 @@ covid_df_all_states_daily <- covid_df_all_states |>
   select(Date, Country_Region, active, hospitalizedCurr, daily_tested, daily_positive)
 head(covid_df_all_states_daily)
 ```
-
 We can begin with getting oversight into how we can get the overall number of people tested, positive results, active, and hospitalized cased by country, reported daily.
 
 ```{r overall, echo=FALSE}
-#Before this, the project actually asks for the countries with the "Highest Fatality Rates" 
 covid_df_all_states_daily_sum <-   covid_df_all_states_daily |> 
   group_by(Country_Region) |>
   summarize(tested = sum(daily_tested),
@@ -123,21 +120,24 @@ covid_mat
 vector_cols <- c("Ratio", "tested", "positive", "active", "hospitalized")
 ```
 
-Now we can report all our findings into a "list" of all the data we can use to answer the following questions: \* Which Top Ten Countries with Most Covid-19 Cases? \*Which countries have had the highest number of positive cases against the number of tests?
+Now we can report all our findings into a list of the data we can use to answer the following questions:
+- Which top ten countries had the most COVID-19 cases?
+- Which countries had the highest number of positive cases relative to the number of tests?
+- Which country had the best testing effort relative to its population?
+- Which country was the most affected relative to its population?
+- Which country was the least affected relative to its population?
+
 
 ```{r final findings list, echo=FALSE}
-# The project also asks for: \* `The Best effort in test related to the population` \* `The most affected country related to its population` and \*`The least affected country related to its population`
-
-question <- "Which countries have had the highest number of positive cases against the number of tests?"
+question1 <- "Which countries have had the highest number of positive cases against the number of tests?"
 answer <- c("Positive tested cases" = positive_tested_top_3)
 
-#dataframes <- list(covid_df, covid_df_all_states, covid_df_all_states_daily, covid_df_all_states_daily_sum, covid_top_10, covid19)
 dataframes <- list(covid_df, covid_df_all_states, covid_df_all_states_daily, covid_top_10)
 matrices <- list(covid_mat)
 vectors <- list(vector_cols, countries)
 data_structure_list <- list("dataframes", dataframes, "matrices", matrices, "vectors", vectors)
 
-covid_analysis_list <- list(question, answer, data_structure_list)
+covid_analysis_list <- list(question1, answer, data_structure_list)
 
 covid_analysis_list[2]
 ```
