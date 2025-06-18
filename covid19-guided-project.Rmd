@@ -7,9 +7,9 @@ output: html_document
 
 ```{r, include=FALSE}
 # Best practice: do not install packages in .Rmd
-library(tidyverse) #includes dplyr, ggplot2, readr, tibble, etc. knitr::opts_chunk\$set(echo = TRUE)
 # This document requires the 'tidyverse' package.
 # Install it once using: install.packages("tidyverse")
+library(tidyverse) #includes dplyr, ggplot2, readr, tibble, etc. knitr::opts_chunk\$set(echo = TRUE)
 ```
 
 # COVID-19 Guided Project
@@ -31,7 +31,7 @@ head(covid_df)
 glimpse(covid_df)
 ```
 
-# Data Clean-up
+## Data Clean-up
 
 Given that the data set groups certain provinces together for some countries, yet specifies the province for certain countries such as the U.S., we will filter our data to be country-wide (removing state-specific rows and removing the Province-level information).
 
@@ -50,6 +50,8 @@ covid_df_all_states_daily <- covid_df_all_states |>
 head(covid_df_all_states_daily)
 ```
 
+## Finding the Top 10 Countries in the Number of Tested Cases
+
 We can begin with getting oversight into how we can get the overall number of people tested, positive results, active, and hospitalized cased by country, reported daily.
 
 ```{r overall, echo=FALSE}
@@ -66,7 +68,9 @@ covid_df_all_states_daily_sum
 covid_top_10 <- head(covid_df_all_states_daily_sum, 10)
 ```
 
-Now we can explore: Which countries have had the highest number of positive cases against the number of tests?
+## Finding the Top 5 Countries with the Most Positive Cases Against Tested Cases
+
+Now we can explore: Which 5 countries have had the highest number of positive cases against the number of tests?
 
 ```{r vectors & matrices, echo=FALSE}
 countries <- covid_top_10$Country_Region
@@ -74,10 +78,6 @@ positive_cases <- covid_top_10$positive
 tested_cases <- covid_top_10$tested
 active_cases <- covid_top_10$active
 hospitalized_cases <- covid_top_10$hospitalized
-tested_cases
-positive_cases
-active_cases
-hospitalized_cases
 
 names(tested_cases) <- countries
 names(positive_cases) <- countries
@@ -89,45 +89,61 @@ active_cases
 hospitalized_cases
 ```
 
-Now we can identify the top 3 positive against tested cases.
+Now we can identify the top 5 positive against tested cases.
 
 ```{r cases, echo=FALSE}
 positive_cases/tested_cases
-positive_tested_top_3 <- c("United Kingdom"=0.113260617,"United States"=0.108618191,"Turkey"=0.080711720)
-positive_tested_top_3
+positive_tested_top_5 <- c("United Kingdom"=0.113260617,"United States"=0.108618191,"Turkey"=0.080711720, "Italy"=0.061523368, "Peru"=0.060910738)
+positive_tested_top_5
 ```
 
-We can make a matrix for the relevant values of the top 3 countries for easy display.
+We can make a matrix for the relevant values of the top 5 countries for easy display.
 
 ```{r covid-matrix, echo=FALSE}
-united_kingdom <- c(0.11, 1473672, 166909, 0, 0)
-united_states <- c(0.10, 17282363, 1877179, 0, 0)
-turkey <- c(0.08, 2031192, 163941, 2980960, 0)
+united_kingdom <- c(0.11, 1473672, 166909, 166909, 0)
+united_states <- c(0.10, 17282363, 1877179, 1877179, 0)
+turkey <- c(0.08, 2031192, 163941, 163941, 0)
+italy <- c(0.06, 4091291, 251710, 251710, 1699003)
+peru <- c(0.06, 976790, 59497, 59497, 0)
 
-covid_mat <- rbind(united_kingdom, united_states, turkey)
-colnames(covid_mat) <- c("Ratio", "tested", "positive", "active", "hospitalized")
+covid_mat1 <- rbind(united_kingdom, united_states, turkey, italy, peru)
+colnames(covid_mat1) <- c("Ratio", "Tested", "Positive", "Active", "Hospitalized")
 ```
 
 ```{r chunk-name}
-covid_mat
+covid_mat1
+```
+Now, the guided project prompts questions relating the countries' COVID-19 case data to their population size. However the population size isn't provided in the first dataset. Population data can be found at: https://www.kaggle.com/datasets/koryto/countryinfo
+```{R population, include=FALSE}
+# question3 <- "Which country had the best testing effort relative to its population?"
+# 
+# question4 <- "Which country was the most affected relative to its population?"
+# 
+# question5 <- "Which country was the least affected relative to its population?"
 ```
 
-```{r making the mysterious vector_cols, include=FALSE}
-vector_cols <- c("Ratio", "tested", "positive", "active", "hospitalized")
-```
 
-Now we can report all our findings into a list of the data we can use to answer the following questions: - Which top ten countries had the most COVID-19 cases? - Which countries had the highest number of positive cases relative to the number of tests? - Which country had the best testing effort relative to its population? - Which country was the most affected relative to its population? - Which country was the least affected relative to its population?
+Now we can report all our findings into a list of the data we can use to answer the following questions: 
+* Which top ten countries had the most COVID-19 cases? 
+* Which countries had the highest number of positive cases relative to the number of tests? 
+* Which country had the best testing effort relative to its population? 
+* Which country was the most affected relative to its population? 
+* Which country was the least affected relative to its population?
+
 
 ```{r final findings list, echo=FALSE}
-question1 <- "Which countries have had the highest number of positive cases against the number of tests?"
-answer <- c("Positive tested cases" = positive_tested_top_3)
+question2 <- "Which countries have had the highest number of positive cases against the number of tests?"
+
+answer2 <- c("Positive tested cases" = positive_tested_top_5)
 
 dataframes <- list(covid_df, covid_df_all_states, covid_df_all_states_daily, covid_top_10)
 matrices <- list(covid_mat)
 vectors <- list(vector_cols, countries)
 data_structure_list <- list("dataframes", dataframes, "matrices", matrices, "vectors", vectors)
 
-covid_analysis_list <- list(question1, answer, data_structure_list)
+covid_analysis_list <- list(question2, answer2, data_structure_list)
 
 covid_analysis_list[2]
 ```
+
+Now as promised, the final part of our exploration is to find out what the top 5 countries had done in their public health response strategies early in the pandemic, and evaluate if there is any pattern in the public health measures that achieved the best testing and recovery rates.
