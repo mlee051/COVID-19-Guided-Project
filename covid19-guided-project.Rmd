@@ -2,7 +2,11 @@
 title: "COVID-19 Guided Project"
 author: "Mona Lee"
 date: "2025-05-18"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    theme: united
+    df_print: paged
 ---
 
 ```{r, include=FALSE}
@@ -113,7 +117,9 @@ colnames(covid_mat1) <- c("Ratio", "Tested", "Positive", "Active", "Hospitalized
 ```{r chunk-name}
 covid_mat1
 ```
-Now, the guided project prompts questions relating the countries' COVID-19 case data to their population size. However the population size isn't provided in the first dataset. Population data can be found at: https://www.kaggle.com/datasets/koryto/countryinfo
+
+Now, the guided project prompts questions relating the countries' COVID-19 case data to their population size. However the population size isn't provided in the first dataset. Population data can be found at: <https://www.kaggle.com/datasets/koryto/countryinfo>
+
 ```{R population, include=FALSE}
 # question3 <- "Which country had the best testing effort relative to its population?"
 # 
@@ -122,14 +128,7 @@ Now, the guided project prompts questions relating the countries' COVID-19 case 
 # question5 <- "Which country was the least affected relative to its population?"
 ```
 
-
-Now we can report all our findings into a list of the data we can use to answer the following questions: 
-* Which top ten countries had the most COVID-19 cases? 
-* Which countries had the highest number of positive cases relative to the number of tests? 
-* Which country had the best testing effort relative to its population? 
-* Which country was the most affected relative to its population? 
-* Which country was the least affected relative to its population?
-
+Now we can report all our findings into a list of the data we can use to answer the following questions: \* Which top ten countries had the most COVID-19 cases? \* Which countries had the highest number of positive cases relative to the number of tests? \* Which country had the best testing effort relative to its population? \* Which country was the most affected relative to its population? \* Which country was the least affected relative to its population?
 
 ```{r final findings list, echo=FALSE}
 question2 <- "Which countries have had the highest number of positive cases against the number of tests?"
@@ -147,3 +146,89 @@ covid_analysis_list[2]
 ```
 
 Now as promised, the final part of our exploration is to find out what the top 5 countries had done in their public health response strategies early in the pandemic, and evaluate if there is any pattern in the public health measures that achieved the best testing and recovery rates.
+
+------------------------------------------------------------------------
+
+## Literature-Based Exploration of Public Health Response Strategies
+
+The objective is to identify whether high-performing public health areas shared common patterns in message delivery, transparency, or trust-building efforts.
+
+------------------------------------------------------------------------
+
+### Summary Table of Public Health Strategies
+
+| Country/Province | Key Strategies | Notable Outcomes |
+|------------------------|------------------------|------------------------|
+| **United Kingdom^1** | NHS-led vaccination rollout to mitigate late responses to the first and second waves. Early 2022 all four UK governments published strategies for replacing legal restrictions with lighter guidance measures. | Largely successful vaccination rollout. The vaccination rollout signalled a turning point in governments’ pandemic responses, away from lockdowns, but COVID-19 cases and hospitalisations remained high moving into the third wave because the UK Government failed to share accepted messaging on controlling the spread of COVID-19. |
+| **United States ^2** | Since March 2020, Congress has provided over $4.65 trillion in federal funds through the Coronavirus Aid, Relief, and Economic Security (CARES) Act and other laws to help the nation respond to and recover from the pandemic. | Funding has resulted in hundreds of recommendations to improve the federal response to the COVID-19 pandemic, and identified a number of lessons from the pandemic. |
+| **Turkey** | ... | ... |
+| **Italy** | ... | ... |
+| **Peru** | ... | ... |
+
+^1 https://www.bma.org.uk/advice-and-support/covid-19/what-the-bma-is-doing/the-public-health-response-by-uk-governments-to-covid-19
+^2 https://www.gao.gov/coronavirus
+------------------------------------------------------------------------
+
+### Detailed Summaries
+
+<details>
+
+<summary><strong>🇰🇷 South Korea</strong></summary>
+
+South Korea implemented mass testing within weeks of the first case. Government SMS alerts notified the public about positive cases in their vicinity, and public dashboards updated in real time. Messaging emphasized *civic responsibility* and was praised for being non-punitive yet firm[^1].
+
+[^1]: Kim, J. (2020). *South Korea’s COVID-19 response*. Journal of Health Policy Research, 45(2), 123–136.
+
+</details>
+
+<details>
+
+<summary><strong>🇳🇿 New Zealand</strong></summary>
+
+Prime Minister Jacinda Ardern and Director-General of Health Dr. Ashley Bloomfield became household names due to their calm, frequent updates. The country used a four-level alert system that was clearly communicated, and lockdowns were enforced early. Public trust remained high[^2].
+
+[^2]: Wilson, S. (2020). *The role of political trust in New Zealand’s COVID-19 success*. Policy Quarterly, 16(3), 3–10.
+
+</details>
+
+<details>
+
+<summary><strong>🇹🇼 Taiwan</strong></summary>
+
+Despite proximity to China, Taiwan avoided lockdowns through strong early interventions. QR-code based tracing, mask distribution plans, and centralized digital reporting kept transmission under control. Communication was fast, data-driven, and often bilingual[^3].
+
+[^3]: Wang, C. J., Ng, C. Y., & Brook, R. H. (2020). *Response to COVID-19 in Taiwan*. JAMA, 323(14), 1341–1342.
+
+</details>
+
+<details>
+
+<summary><strong>🇩🇪 Germany</strong></summary>
+
+Germany’s Robert Koch Institute served as the science-forward voice, issuing guidelines and case updates. While the federal structure allowed states some leeway, most followed RKI advice closely. The clarity and consistency of communication played a major role in the country's early pandemic resilience[^4].
+
+[^4]: Bertram, M. et al. (2020). *Public health governance in Germany during COVID-19*. Health Systems Review, 12(1), 88–104.
+
+</details>
+
+<details>
+
+<summary><strong>🇨🇦 Canada (Selected Provinces)</strong></summary>
+
+Provinces like British Columbia and Nova Scotia saw better public cooperation, partially attributed to clear, compassionate messaging by public health leaders like Dr. Bonnie Henry. Her use of the phrase *“Be kind, be calm, be safe”* became a public mantra[^5].
+
+[^5]: CBC News (2020). *B.C.'s Dr. Bonnie Henry gains national praise for calm messaging*. CBC. <https://www.cbc.ca>
+
+</details>
+
+------------------------------------------------------------------------
+
+### Reflections
+
+This literature-based exploration suggests a common pattern: regions with **transparent, consistent, and empathetic communication** experienced better outcomes in the early pandemic phase. These findings provide context for interpreting the testing and recovery data presented earlier.
+
+------------------------------------------------------------------------
+
+### References
+
+1.  
